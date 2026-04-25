@@ -2,7 +2,7 @@ import postRepository from "../repositories/postRepository.js";
 import userRepository from "../repositories/userRepository.js";
 
 class PostService {
-    parseHashtags(hashtags) {
+    normalizeHashtags(hashtags) {
         if (Array.isArray(hashtags)) {
             return hashtags.filter(Boolean);
         }
@@ -11,10 +11,32 @@ class PostService {
             return [];
         }
 
-        return hashtags
+        const normalizedInput = hashtags.trim();
+
+        if (!normalizedInput) {
+            return [];
+        }
+
+        if (!normalizedInput.includes(",") && /\s/.test(normalizedInput)) {
+            throw new Error("Los hashtags deben estar separados por comas.");
+        }
+
+        const parsedHashtags = normalizedInput
             .split(",")
             .map((tag) => tag.trim())
             .filter(Boolean);
+
+        const hasInvalidTag = parsedHashtags.some((tag) => /\s/.test(tag));
+
+        if (hasInvalidTag) {
+            throw new Error("Cada hashtag debe ser una sola palabra y estar separado por comas.");
+        }
+
+        return parsedHashtags;
+    }
+
+    parseHashtags(hashtags) {
+        return this.normalizeHashtags(hashtags);
     }
 
     async createPost(userId, postData) {
