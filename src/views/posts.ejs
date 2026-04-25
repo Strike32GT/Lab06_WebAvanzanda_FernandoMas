@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media - Posts</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    :root {
+      --page-bg: #f3f8d8;
+      --nav-bg: #0d215f;
+      --nav-accent: #6cd4c3;
+      --card-border: #b8e7dc;
+      --card-bg: #fcfcfc;
+      --text-main: #10214f;
+      --text-soft: #4f658b;
+      --chip-bg: #c7f3bf;
+      --chip-text: #1f6d50;
+      --button-main: #0b1f66;
+      --button-soft: #74d0c0;
+    }
+
+    body {
+      background: var(--page-bg);
+      color: var(--text-main);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      border-radius: 0 0 24px 24px;
+      overflow: hidden;
+    }
+
+    .topbar {
+      background: var(--nav-bg);
+      padding: 0 26px;
+      box-shadow: none;
+    }
+
+    .topbar .brand-logo {
+      color: var(--nav-accent);
+      font-size: 2rem;
+      font-weight: 500;
+      position: static;
+      transform: none;
+    }
+
+    .topbar .nav-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+    }
+
+    .topbar nav ul a,
+    .topbar .nav-link {
+      color: #d4fff8;
+      font-size: 1.15rem;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-new {
+      border-radius: 12px;
+      background: #123ca2;
+      color: white;
+      padding: 0 18px;
+      font-weight: 700;
+      box-shadow: none;
+      text-transform: none;
+    }
+
+    .page-content {
+      padding: 30px 18px 48px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin: 0 0 10px;
+      color: var(--text-main);
+    }
+
+    .section-copy {
+      color: var(--text-soft);
+      font-size: 1.05rem;
+      margin-bottom: 24px;
+    }
+
+    .feed-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: none;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feed-cover {
+      height: 148px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 3rem;
+      letter-spacing: 2px;
+    }
+
+    .feed-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .feed-cover.one { background: #102c79; }
+    .feed-cover.two { background: linear-gradient(135deg, #44748d, #67c5b2); }
+    .feed-cover.three { background: #295487; }
+
+    .feed-card .card-content {
+      padding: 16px 18px 12px;
+      flex: 1;
+    }
+
+    .feed-card .card-title {
+      display: block;
+      font-size: 1.9rem;
+      line-height: 1.15;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+
+    .feed-card p {
+      color: #23406a;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: var(--chip-bg);
+      color: var(--chip-text);
+      line-height: 1;
+    }
+
+    .feed-card .card-action {
+      background: transparent;
+      border-top: 1px solid #e8edd8;
+      padding: 14px 18px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .author-name {
+      color: #69bdae;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .date-meta {
+      color: #7e8da9;
+      font-size: 0.9rem;
+    }
+
+    .card-tools {
+      display: flex;
+      gap: 10px;
+    }
+
+    .icon-button,
+    .icon-button:hover,
+    .icon-button:focus {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      box-shadow: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    .icon-button.edit {
+      background: var(--button-soft);
+    }
+
+    .icon-button.delete {
+      background: var(--button-main);
+    }
+
+    .status-panel {
+      border-radius: 18px;
+      border: 1px solid var(--card-border);
+      box-shadow: none;
+    }
+
+    @media only screen and (max-width: 992px) {
+      .topbar .nav-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px 0;
+      }
+
+      .nav-actions {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .topbar ul {
+        display: flex;
+        gap: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <nav class="transparent z-depth-0">
+        <div class="nav-wrapper">
+          <a href="/" class="brand-logo">Social Media</a>
+
+          <div class="nav-actions">
+            <ul class="right" style="position: static; transform: none;">
+              <li><a class="nav-link" href="/">Inicio</a></li>
+              <li><a class="nav-link" href="/posts">Mis posts</a></li>
+            </ul>
+            <a href="/posts/new" class="btn nav-new">+ Nuevo</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="page-content">
+      <div class="container">
+        <% if (error) { %>
+          <div class="card-panel red lighten-4 red-text text-darken-4 status-panel">
+            <%= error %>
+          </div>
+        <% } %>
+
+        <section id="mis-posts" style="margin-bottom: 42px;">
+          <h1 class="section-title">Mis posts</h1>
+          <p class="section-copy">Publicaciones recientes con un formato visual similar al mockup que compartiste.</p>
+
+          <div class="row">
+            <% if (!posts.length) { %>
+              <div class="col s12">
+                <div class="card-panel amber lighten-4 amber-text text-darken-4 status-panel">
+                  Aun no hay publicaciones registradas.
+                </div>
+              </div>
+            <% } %>
+
+            <% posts.forEach((post, index) => { %>
+              <% const coverClass = index % 3 === 0 ? "one" : index % 3 === 1 ? "two" : "three"; %>
+              <% const coverIcon = index % 3 === 0 ? "◈" : index % 3 === 1 ? "◇" : "◉"; %>
+              <div class="col s12 m6 l4">
+                <article class="feed-card">
+                  <div class="feed-cover <%= coverClass %>">
+                    <% if (post.imageUrl) { %>
+                      <img src="<%= post.imageUrl %>" alt="Imagen del post <%= post.title %>">
+                    <% } else { %>
+                      <%= coverIcon %>
+                    <% } %>
+                  </div>
+
+                  <div class="card-content">
+                    <span class="card-title"><%= post.title %></span>
+                    <p><%= post.content %></p>
+
+                    <div class="chip-row">
+                      <% if (post.hashtags?.length) { %>
+                        <% post.hashtags.forEach((tag) => { %>
+                          <span class="tag-chip"><%= tag.startsWith('#') ? tag : `#${tag}` %></span>
+                        <% }) %>
+                      <% } else { %>
+                        <span class="tag-chip">#sinhashtags</span>
+                      <% } %>
+                    </div>
+                  </div>
+
+                  <div class="card-action">
+                    <div>
+                      <div class="author-name">
+                        <%= post.user ? `${post.user.name} ${post.user.lastName}` : 'Sin usuario' %>
+                      </div>
+                      <div class="date-meta">
+                        <%= post.updatedAt ? `Editado ${new Date(post.updatedAt).toLocaleDateString('es-PE')}` : `Publicado ${new Date(post.createdAt).toLocaleDateString('es-PE')}` %>
+                      </div>
+                    </div>
+
+                    <div class="card-tools">
+                      <a href="/posts/<%= post._id %>/edit" class="icon-button edit">
+                        <i class="material-icons tiny">edit</i>
+                      </a>
+                      <form action="/posts/<%= post._id %>/delete" method="POST" style="margin: 0;">
+                        <button type="submit" class="icon-button delete" onclick="return confirm('¿Deseas eliminar este post?')">
+                          <i class="material-icons tiny">close</i>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            <% }) %>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>
